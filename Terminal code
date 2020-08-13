@@ -1,0 +1,68 @@
+#Save identified Eskew AMP sequence in Terminal
+>nano ranalexin
+>S69903.1 Ranalexin=antimicrobial peptide polymyxin homolog [Rana catesbeiana=bullfrogs, metamorphic tadpoles, skin cells, mRNA, 347 nt]
+GTCTTCCAGCTGTCTACATTCTCATAACCAACTGAACCACTCGAGCCAAAGATGTTCACCTTGAAGAAATCCCTGTTACTCCTTTTCTTCCTTGGGACCATCAACTTATCTCTCTGTGAGGAAGAGAGAAATGCCGAAGAAGAAAGAAGAGACAATCCAGATGAAAGGGATGTTGAAGTGGAAAAACGATTTTTGGGAGGCTTAATAAAGATCGTTCCAGCAATGATTTGTGCAGTGACCAAAAAATGTTGAAACTTTGGAAACTTGAATTGGAAATCATCTGATGTAGAATATCATTTAGCTAATATCACACCAGATGTCTTATAAAAAATAAACACGTCGCATAT 
+
+#Download amphibian whole genome sequences from European Nucleotide Archive (Leinonan 2011)
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/li/LIAG02.fasta.gz 
+>wget http://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/ly/LYTH01.fasta.gz 
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/jy/JYOU01.fasta.gz 
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/pz/PZQJ01.fasta.gz 
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/on/ONZH01.fasta.gz 
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/vi/VIAB01.fasta.gz
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/vi/VIAC01.fasta.gz 
+>wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/aa/AAMC04.fasta.gz
+
+#Unzip gz files
+>gunzip LIAG02.fasta.gz
+>gunzip LYTH01.fasta.gz
+>gunzip JYOU01.fasta
+>gunzip PZQJ01.fasta.gz
+>gunzip ONZH01.fasta.gz
+>gunzip VIAC01.fasta.gz
+>gunzip VIAB01.fasta.gz
+>gunzip AAMC04.fasta.gz 
+
+#Keep track of file names
+>nano FileNames
+LIAG02 is the American bullfrog, Lithobates catesbeianus
+LYTH01 is the African clawed frog, Xenopus laevis
+JYOU01 is the Tibetan frog, Nanorana parkeri
+PZQJ01 is the African bull frog, Pyxidephalus adspersus
+ONZH01 is the cane toad, Rhinella marina
+VIAC01 is the strawberry poison-dart frog, Oophaga pumilio
+VIAB01 is the common frog, Rana temporaria
+AAMC04 is the western clawed frog, Xenopus tropicalis
+
+#Combine all of the genomes into one file
+>cat LIAG02.fasta LYTH01.fasta JYOU01.fasta PZQJ01.fasta ONZH01.fasta VIAC01.fasta VIAB01.fasta AAMC04.fasta > AllGenomes
+
+#Make a BLAST database and align it with the Eskew sequence
+>makeblastdb -in AllGenomes -out blastdb -dbtype nucl 
+>blastn -db blastdb -query EskewAMP -outfmt '6 qseqid qlen length pident gaps evalue stitle' -num_threads 6 -out blast_out 
+
+##For each species, the sequence with the highest bit score was copied and pasted into nano command, so long as the e-value was < 0.1
+
+##Not enough sequences were identified for a thorough multiple sequence alignment, so some were identified manually by aligning the Eskew sequence file to the NCBI gene BLASTn database with the following species in the “Organism” box: Odorrana schmackeri, Babina daunchina, Pseudacris regilla, Rana saharica, Amolops mantzorum. The sequences with the highest bit score were saved into Terminal via nano command as previously done with the Eskew AMP sequence. 
+
+#Combine all of the gene sequences into one file “AllGenes” via the cat command. Note that my file names may not be identical to yours
+>cat EskewAMP X.tropicalisNPCIntracellularCholesterolTransporter R.temporariaTemporinGPrecursor Nanorana_parkeri_uncharacterized_ncRNA Odorrana_schmackeri_brevinin-1s_precursor Amolops_mantzorum_pleurain-B-MT1_antimicrobial_peptide_precursor Rana_saharica_temporin-SHe_precursor Pseudacris_regilla_temporin-3P_precursor Babina_daunchina_peptide-DN4 > AllGenes
+
+#Create a multiple sequence alignment via MAFFT (Madeira 2019)
+>mafft --reorder --localpair --thread 6 AllGenes > final.aln
+>cat final.aln
+
+#Copy and paste the final alignment above into the multiple alignment viewer in European Nucleotide Archive, found at https://www.ebi.ac.uk/Tools/msa/mview/ 
+
+#Add an outgroup gene, the elephant TP53 retrogene, to the “AllGenes” file
+>nano LoxodontaAfricanaTP53Retrogene
+>KF715870.1:906-1001 Loxodonta africana TP53 retrogene 16 genomic sequence
+AGGTCGGTTCTGACTACCACCATCCACTTCATGTGTAACAGCTCCTGCATGGGGGGCAGGAAGCCATCCTCACCATCATCACACTGGAAGACTCCA
+>cat LoxoDontaAfricanaTP53Retrogene >> AllGenes
+
+#Create a second multiple sequence alignment via MAFFT and then use it to create a phylogenetic tree via FigTree v1.4.4 as shown below. Afterwards, paste the iqtree output into FigTree v1.4.4 (Rambaut 2018). 
+> mafft --reorder --localpair --thread 6 AllGenes > ForTree
+>iqtree -s ForTree -m JC -bb 1000 -pre Tree 
+>cat Tree
+
+#Copy and paste the output above into FigTree v1.4.4. 
