@@ -1,0 +1,15 @@
+﻿Species,Phylum,IUCN_Red_List_status,Last assessed,National_status,Bd_resistance,Genome_availability,Gene_name,GeneID,Score,E-value,Identities,Identities.percent,Gaps,Gaps.percent
+Lithobates catesbeianus,Chordata,Increasing,2015,LC,Y,Y,ranalexin,S69903.1,435,8E-118,268/283,95,6/283,2
+Lithobates sylvatica,Chordata,Stable,2015,LC,N,N,NA,NA,NA,NA,NA,NA,NA,NA
+Xenopus laevis,Chordata,Increasing,2008,LC,Y,Y,NA,NA,NA,NA,NA,NA,NA,NA
+Xenopus tropicalis,Chordata,Stable,2018,LC,N,Y,NPC intracellular cholesterol transporter 1,XM_004915212.4,43.7,0.008,41/52,79, 3/52,5
+Pyxicephalus adspersus,Chordata,Decreasing,2013,NT,U,Y,NA,NA,NA,NA,NA,NA,NA,NA
+Nanorana parkeri,Chordata,Stable,2004,LC,U,Y,uncharacterized LOC,XR_001941307.1,98.7,3E-20,93/119,78,0/119,0
+Rhinella marina,Anura ,Increasing,2008,LC,N,Y,NA,NA,NA,NA,NA,NA,NA,NA
+Rana temporaria,Anura ,Stable,2008,LC,U,Y,temporin G precursor,Y09395.1,288,4E-79,237/281,84,11/281,3
+Oophaga pumilio,Chordata,Decreasing,2014,U,N,N,NA,NA,NA,NA,NA,NA,NA,NA
+Amolops mantzorum,Chordata,Decreasing,2019,U,U,N,pleurain-B-MT1 antimicrobial peptide precursor,HQ128621.1,229,8E-62,146/155,94,3/155,1
+Rana saharica,Chordata,Stable,2008,LC,U,N,temporin-SHe precursor,FN557008.1,255,9E-70,171/187,91,3/187,1
+Pseudacris regilla,Chordata,Stable,2004,LC,N,N,temporin-3PR precursor,JQ511833.1,266,2E-61,147/158,93,4/158,2
+Babina daunchina,Chordata,Stable,2019,LC,U,N,peptide-DN4,Q1286626.1,224,2E-61,145/155,94,3/155,1
+Odorrana schmackeri,Chordata,Decreasing,2005,NT,U,N,breinin-1S precursor,AJ971790.1,231,4E-62,141/146,97,3/146,2
