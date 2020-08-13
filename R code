@@ -1,0 +1,17 @@
+#Download data
+>df <- read.csv("SpeciesRFriendly.csv", header = TRUE)
+
+#Load libraries
+>library(tidyverse)
+
+#Create tile plot with ggplot2
+>df <- mutate_at(df, vars(IUCN_Red_List_status, Bd_resistance, 
+                         Genome_availability, Phylum, Last.assessed), as.factor)
+>df$missing_geneId <- "Has Gene Info"
+>df$missing_geneId[is.na(df$GeneID)] <- "Missing Gene Info"
+
+>ggplot(df, aes(Bd_resistance, Species, fill = IUCN_Red_List_status,
+               colour = IUCN_Red_List_status)) + 
+  	geom_tile(alpha = 0.5) + 
+  	facet_grid(. ~ missing_geneId) +
+  	theme_bw()
